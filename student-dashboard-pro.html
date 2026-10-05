@@ -37,8 +37,8 @@
 <body class="theme-dark">
   <div class="student-page">
     <nav class="student-nav">
-      <a class="student-brand" href="home_page.html"><span class="student-mark">K</span><span>KIRAN ACADEMY</span></a>
-      <div class="student-actions"><a href="home_page.html">Main Website</a><button id="logout">Logout</button></div>
+      <a class="student-brand" href="index.html"><span class="student-mark">K</span><span>KIRAN ACADEMY</span></a>
+      <div class="student-actions"><a href="index.html">Main Website</a><button id="logout">Logout</button></div>
     </nav>
 
     <main class="student-wrap">
@@ -295,7 +295,7 @@
     $$('.student-tab').forEach(btn=>btn.addEventListener('click',()=>openTab(btn.dataset.tab)));
     $$('[data-open-tab]').forEach(btn=>btn.addEventListener('click',()=>openTab(btn.dataset.openTab)));
     $('#module-course-select').addEventListener('change',e=>renderModules(e.target.value));
-    $('#logout').addEventListener('click',()=>{sessionStorage.removeItem('kiranStudentName');window.location.href='home_page.html';});
+    $('#logout').addEventListener('click',()=>{sessionStorage.removeItem('kiranStudentName');window.location.href='index.html';});
     renderCourses(); renderTasks(); renderTests();
   </script>
 </body>
