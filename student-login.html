@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | Kiran Academy</title>
+  <link rel="stylesheet" href="style_k_a.css">
+  <style>
+    .auth-page{min-height:100vh;display:grid;place-items:center;padding:28px;background:var(--bg);position:relative;overflow:hidden}
+    .auth-page:before,.auth-page:after{content:"";position:absolute;border-radius:50%;filter:blur(5px);opacity:.35;pointer-events:none}
+    .auth-page:before{width:420px;height:420px;background:var(--primary);top:-180px;right:-100px}
+    .auth-page:after{width:360px;height:360px;background:var(--purple);bottom:-170px;left:-100px}
+    .auth-shell{width:min(100%,1040px);display:grid;grid-template-columns:1.05fr .95fr;border:1px solid var(--border);background:var(--surface);box-shadow:var(--shadow);border-radius:28px;overflow:hidden;position:relative;z-index:1;backdrop-filter:blur(20px)}
+    .auth-info{padding:54px;background:linear-gradient(145deg,rgba(92,124,255,.18),rgba(155,92,255,.08));border-right:1px solid var(--border)}
+    .auth-logo{display:flex;align-items:center;gap:12px;font-weight:800;font-size:1.05rem;color:var(--text);text-decoration:none}
+    .auth-logo-mark{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,var(--primary),var(--purple));color:#fff;font-size:1.3rem;box-shadow:var(--shadow-blue)}
+    .auth-info h1{font-size:clamp(2rem,4vw,3.4rem);line-height:1.05;margin:70px 0 18px;color:var(--text)}
+    .auth-info p{color:var(--text-soft);max-width:460px;line-height:1.75}
+    .auth-points{display:grid;gap:14px;margin-top:32px}
+    .auth-point{display:flex;gap:12px;align-items:center;color:var(--text-soft)}
+    .auth-point span{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;background:rgba(92,124,255,.14);color:var(--primary)}
+    .auth-card{padding:54px;background:var(--surface-solid)}
+    .auth-card h2{font-size:2rem;color:var(--text);margin-bottom:8px}
+    .auth-sub{color:var(--text-muted);margin-bottom:30px}
+    .auth-form{display:grid;gap:18px}
+    .field{display:grid;gap:8px}
+    .field label{font-weight:700;color:var(--text-soft);font-size:.92rem}
+    .field input{width:100%;height:50px;padding:0 15px;border-radius:12px;border:1px solid var(--border);outline:none;background:var(--bg-soft);color:var(--text);font:inherit;transition:.2s}
+    .field input:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(92,124,255,.10)}
+    .otp-row{display:grid;grid-template-columns:1fr auto;gap:10px}
+    .otp-btn{border:1px solid var(--border-strong);background:transparent;color:var(--primary);border-radius:12px;padding:0 14px;font-weight:700;cursor:pointer}
+    .auth-submit{height:52px;border:0;border-radius:13px;background:linear-gradient(135deg,var(--primary),var(--purple));color:#fff;font-weight:800;font-size:1rem;cursor:pointer;box-shadow:var(--shadow-blue);margin-top:4px}
+    .auth-message{min-height:22px;font-size:.9rem;color:var(--text-soft)}
+    .auth-message.error{color:var(--danger)}
+    .auth-message.success{color:var(--success)}
+    .back-home{display:inline-block;margin-top:22px;color:var(--text-soft);text-decoration:none}
+    .back-home:hover{color:var(--primary)}
+    @media(max-width:800px){.auth-shell{grid-template-columns:1fr}.auth-info{display:none}.auth-card{padding:36px 25px}}
+  </style>
+</head>
+<body class="theme-dark">
+  <main class="auth-page">
+    <section class="auth-shell" aria-label="Kiran Academy student login">
+      <div class="auth-info">
+        <a href="home_page.html" class="auth-logo"><span class="auth-logo-mark">K</span>KIRAN ACADEMY</a>
+        <h1>Your learning journey starts here.</h1>
+        <p>Login to access your personalized student dashboard, courses, tests, mock tests, attendance and assigned tasks.</p>
+        <div class="auth-points">
+          <div class="auth-point"><span>✓</span> Track your course progress</div>
+          <div class="auth-point"><span>✓</span> View tests and mock-test performance</div>
+          <div class="auth-point"><span>✓</span> Monitor attendance and tasks</div>
+        </div>
+      </div>
+      <div class="auth-card">
+        <h2>Student Login</h2>
+        <p class="auth-sub">Enter your account details to continue.</p>
+        <form id="login-form" class="auth-form">
+          <div class="field">
+            <label for="username">Username / Email</label>
+            <input id="username" name="username" type="text" placeholder="Enter username or email" autocomplete="username" required>
+          </div>
+          <div class="field">
+            <label for="password">Password</label>
+            <input id="password" name="password" type="password" placeholder="Enter password" autocomplete="current-password" required>
+          </div>
+          <div class="field">
+            <label for="otp">OTP</label>
+            <div class="otp-row">
+              <input id="otp" name="otp" type="text" inputmode="numeric" maxlength="6" placeholder="Enter 6-digit OTP" autocomplete="one-time-code" required>
+              <button type="button" class="otp-btn" id="demo-otp">Get OTP</button>
+            </div>
+          </div>
+          <div id="login-message" class="auth-message" aria-live="polite"></div>
+          <button type="submit" class="auth-submit">Login & Open Dashboard ↗</button>
+        </form>
+        <a href="home_page.html" class="back-home">← Back to Kiran Academy</a>
+      </div>
+    </section>
+  </main>
+  <script>
+    const form=document.getElementById('login-form');
+    const msg=document.getElementById('login-message');
+    const otpBtn=document.getElementById('demo-otp');
+    let demoOtp='';
+    otpBtn.addEventListener('click',()=>{
+      demoOtp=String(Math.floor(100000+Math.random()*900000));
+      msg.className='auth-message success';
+      msg.textContent='Demo OTP generated: '+demoOtp;
+      document.getElementById('otp').value=demoOtp;
+    });
+    form.addEventListener('submit',(e)=>{
+      e.preventDefault();
+      const username=document.getElementById('username').value.trim();
+      const password=document.getElementById('password').value.trim();
+      const otp=document.getElementById('otp').value.trim();
+      if(!username||!password||!otp){msg.className='auth-message error';msg.textContent='Please fill username, password and OTP.';return;}
+      if(demoOtp && otp!==demoOtp){msg.className='auth-message error';msg.textContent='Incorrect demo OTP. Click Get OTP and try again.';return;}
+      sessionStorage.setItem('kiranStudentName',username);
+      localStorage.setItem('kiranUserName',username);
+      localStorage.setItem('kiranStudentLoggedIn','true');
+      window.open('student-dashboard-pro.html','_blank','noopener');
+    });
+  </script>
+</body>
+</html>

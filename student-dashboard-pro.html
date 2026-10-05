@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Student Dashboard | Kiran Academy</title>
+  <link rel="stylesheet" href="style_k_a.css">
+  <style>
+    .student-page{min-height:100vh;background:var(--bg);color:var(--text)}
+    .student-nav{height:76px;display:flex;align-items:center;justify-content:space-between;padding:0 5%;border-bottom:1px solid var(--border);background:var(--surface);backdrop-filter:blur(16px);position:sticky;top:0;z-index:20}
+    .student-brand{display:flex;align-items:center;gap:11px;text-decoration:none;color:var(--text);font-weight:800}.student-mark{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,var(--primary),var(--purple))}
+    .student-actions{display:flex;gap:10px}.student-actions a,.student-actions button{padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text);text-decoration:none;font-weight:700;cursor:pointer}
+    .student-wrap{width:min(1220px,92%);margin:0 auto;padding:38px 0 70px}
+    .student-hero{display:flex;justify-content:space-between;align-items:end;gap:25px;margin-bottom:24px}.student-hero h1{font-size:clamp(2rem,4vw,3.2rem);margin:8px 0}.student-hero p{color:var(--text-soft)}.student-badge{padding:12px 16px;border:1px solid var(--border-strong);border-radius:14px;background:var(--surface);color:var(--primary);font-weight:800}
+    .profile-strip{display:flex;align-items:center;gap:18px;padding:20px;border:1px solid var(--border);border-radius:22px;background:var(--surface);margin-bottom:22px}.avatar{width:62px;height:62px;border-radius:18px;display:grid;place-items:center;background:linear-gradient(135deg,var(--primary),var(--purple));color:#fff;font-size:1.4rem;font-weight:900}.profile-meta strong{display:block;font-size:1.15rem}.profile-meta span{color:var(--text-muted);font-size:.9rem}.profile-actions{margin-left:auto;display:flex;gap:9px;flex-wrap:wrap}.profile-actions button{border:1px solid var(--border);background:var(--surface-light);color:var(--text);padding:9px 12px;border-radius:10px;font-weight:700;cursor:pointer}
+    .student-tabs{display:flex;gap:8px;overflow:auto;padding:6px;margin-bottom:22px;border:1px solid var(--border);border-radius:15px;background:var(--surface)}.student-tab{border:0;background:transparent;color:var(--text-muted);padding:11px 15px;border-radius:10px;font-weight:800;white-space:nowrap;cursor:pointer}.student-tab.active{background:linear-gradient(135deg,var(--primary),var(--purple));color:#fff}
+    .student-panel{display:none}.student-panel.active{display:block}
+    .student-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}.student-stat{padding:20px;border:1px solid var(--border);border-radius:18px;background:var(--surface);box-shadow:var(--shadow-blue)}.student-stat span{display:block;color:var(--text-muted);font-size:.85rem}.student-stat strong{display:block;font-size:1.7rem;margin-top:7px}
+    .student-layout{display:grid;grid-template-columns:1.25fr .75fr;gap:20px;margin-top:20px}.student-card{padding:24px;border:1px solid var(--border);border-radius:20px;background:var(--surface)}.student-card h2{margin-bottom:16px}.student-card p.muted{color:var(--text-muted)}.student-list{display:grid;gap:11px}.student-item{display:flex;justify-content:space-between;align-items:center;gap:15px;padding:15px;border-radius:13px;background:var(--surface-light);border:1px solid var(--border)}.student-item small{display:block;color:var(--text-muted);margin-top:4px}.student-pill{padding:7px 10px;border-radius:999px;font-size:.78rem;font-weight:800;background:rgba(92,124,255,.12);color:var(--primary);white-space:nowrap}
+    .progress-track{height:9px;border-radius:99px;background:var(--bg-soft);overflow:hidden;margin-top:9px}.progress-track span{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--primary),var(--purple))}
+    .course-row{display:grid;grid-template-columns:1fr 100px 90px;gap:15px;align-items:center;padding:14px 0;border-bottom:1px solid var(--border)}.course-row:last-child{border-bottom:0}.course-row b{display:block}.course-row small{color:var(--text-muted)}
+    .test-row{cursor:pointer;transition:transform .2s,border-color .2s}.test-row:hover{transform:translateY(-2px);border-color:var(--border-strong)}
+    .test-detail{margin-top:16px;padding:18px;border:1px solid var(--border-strong);border-radius:16px;background:var(--surface-light);display:none}.test-detail.open{display:block}.detail-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:14px}.detail-stat{padding:13px;border:1px solid var(--border);border-radius:12px;background:var(--surface)}.detail-stat span{display:block;color:var(--text-muted);font-size:.75rem}.detail-stat strong{display:block;margin-top:4px}
+    .empty-state{text-align:center;padding:38px;color:var(--text-muted);border:1px dashed var(--border-strong);border-radius:16px}.action-btn{border:0;background:linear-gradient(135deg,var(--primary),var(--purple));color:#fff;padding:10px 14px;border-radius:10px;font-weight:800;cursor:pointer}
+    .schedule{display:grid;gap:11px}.schedule-row{display:grid;grid-template-columns:90px 1fr auto;gap:15px;align-items:center;padding:13px;border-bottom:1px solid var(--border)}.schedule-row:last-child{border-bottom:0}.schedule-row time{color:var(--primary);font-weight:800}.schedule-row p{font-weight:700}.schedule-row small{color:var(--text-muted)}
+    .notice{padding:14px 16px;border-radius:14px;background:rgba(49,230,140,.08);border:1px solid rgba(49,230,140,.18);color:var(--text-soft);margin-bottom:18px}
+    .module-course-picker{display:grid;gap:8px;margin-top:18px;max-width:430px}.module-course-picker label{font-size:.85rem;font-weight:800;color:var(--text-soft)}.module-course-picker select{height:48px;border:1px solid var(--border);border-radius:12px;background:var(--surface-light);color:var(--text);padding:0 13px;font:inherit;outline:none}.module-course-picker select:focus{border-color:var(--primary)}
+    .module-row{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center}.module-number{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;background:linear-gradient(135deg,var(--primary),var(--purple));color:#fff;font-weight:900}.module-row small{display:block;color:var(--text-muted);margin-top:4px}.module-status{font-size:.78rem;font-weight:800;color:var(--primary)}
+    .project-dashboard-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.project-dashboard-card{padding:18px;border:1px solid var(--border);border-radius:16px;background:var(--surface-light)}.project-dashboard-card .project-icon{font-size:1.6rem}.project-dashboard-card h3{margin:9px 0 5px}.project-dashboard-card p{color:var(--text-muted);font-size:.88rem;line-height:1.6}.project-dashboard-card .student-pill{display:inline-block;margin-top:12px}
+    .certificate-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.certificate-card{padding:20px;border:1px solid var(--border);border-radius:18px;background:linear-gradient(145deg,var(--surface-light),var(--surface));position:relative;overflow:hidden}.certificate-card:after{content:'CERTIFICATE';position:absolute;right:-28px;top:12px;transform:rotate(35deg);font-size:.62rem;letter-spacing:.15em;color:var(--primary);opacity:.3}.certificate-card h3{margin:8px 0}.certificate-card p{color:var(--text-muted);font-size:.86rem;line-height:1.55}.certificate-lock{display:inline-block;margin-top:12px;color:var(--text-muted);font-size:.8rem;font-weight:800}
+    .career-roadmap{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.career-step{display:flex;gap:14px;padding:17px;border:1px solid var(--border);border-radius:16px;background:var(--surface-light)}.career-step>span{width:42px;height:42px;flex:0 0 42px;display:grid;place-items:center;border-radius:12px;background:linear-gradient(135deg,var(--primary),var(--purple));color:#fff;font-weight:900}.career-step b{display:block}.career-step small{display:block;color:var(--text-muted);margin-top:5px;line-height:1.5}
+    @media(max-width:1000px){.student-grid{grid-template-columns:repeat(3,1fr)}.student-layout{grid-template-columns:1fr}.detail-grid{grid-template-columns:repeat(3,1fr)}}
+    @media(max-width:650px){.project-dashboard-grid,.certificate-grid,.career-roadmap{grid-template-columns:1fr}.student-grid{grid-template-columns:repeat(2,1fr)}.student-nav{padding:0 4%}.student-brand span:last-child{display:none}.student-hero{align-items:start;flex-direction:column}.profile-strip{align-items:flex-start;flex-wrap:wrap}.profile-actions{margin-left:0}.course-row{grid-template-columns:1fr}.detail-grid{grid-template-columns:repeat(2,1fr)}.schedule-row{grid-template-columns:1fr}}
+    @media(max-width:420px){.student-grid{grid-template-columns:1fr}.student-wrap{width:94%}}
+  </style>
+</head>
+<body class="theme-dark">
+  <div class="student-page">
+    <nav class="student-nav">
+      <a class="student-brand" href="home_page.html"><span class="student-mark">K</span><span>KIRAN ACADEMY</span></a>
+      <div class="student-actions"><a href="home_page.html">Main Website</a><button id="logout">Logout</button></div>
+    </nav>
+
+    <main class="student-wrap">
+      <header class="student-hero">
+        <div><span class="section-label">MY STUDENT DASHBOARD</span><h1>Welcome, <span id="student-name">Student</span> 👋</h1><p>Your classes, courses, tests, mock tests, attendance, tasks and progress in one place.</p></div>
+        <div class="student-badge">● Logged In</div>
+      </header>
+
+      <section class="profile-strip">
+        <div class="avatar" id="student-avatar">S</div>
+        <div class="profile-meta"><strong id="profile-name">Student</strong><span id="profile-email">Student account</span></div>
+        <div class="profile-actions"><button data-open-tab="profile">My Profile</button><button data-open-tab="tests">Test Performance</button></div>
+      </section>
+
+      <nav class="student-tabs" aria-label="Student dashboard sections">
+        <button class="student-tab active" data-tab="overview">Overview</button>
+        <button class="student-tab" data-tab="profile">Profile</button>
+        <button class="student-tab" data-tab="courses">My Courses</button>
+        <button class="student-tab" data-tab="classes">Classes</button>
+        <button class="student-tab" data-tab="tests">Tests</button>
+        <button class="student-tab" data-tab="mock">Mock Tests</button>
+        <button class="student-tab" data-tab="live">Live Tests</button>
+        <button class="student-tab" data-tab="attendance">Attendance</button>
+        <button class="student-tab" data-tab="tasks">Tasks</button>
+        <button class="student-tab" data-tab="modules">Learning Modules</button>
+        <button class="student-tab" data-tab="projects">Projects</button>
+        <button class="student-tab" data-tab="certificates">Certificates</button>
+        <button class="student-tab" data-tab="career">Career Roadmap</button>
+        <button class="student-tab" data-tab="progress">Progress</button>
+      </nav>
+
+      <section class="student-panel active" id="panel-overview">
+        <div class="notice">Your login is connected to this dashboard. Quiz results saved on the main Kiran Academy website are shown in your Test Performance section.</div>
+        <section class="student-grid">
+          <article class="student-stat"><span>Active Course</span><strong id="stat-course">Full Stack</strong></article>
+          <article class="student-stat"><span>Attendance</span><strong id="stat-attendance">92%</strong></article>
+          <article class="student-stat"><span>Tests</span><strong id="stat-tests">0</strong></article>
+          <article class="student-stat"><span>Average Score</span><strong id="stat-score">—</strong></article>
+          <article class="student-stat"><span>Overall Progress</span><strong id="stat-progress">68%</strong></article>
+        </section>
+        <section class="student-layout">
+          <article class="student-card"><h2>📚 Course Progress</h2><div id="overview-courses" class="student-list"></div></article>
+          <article class="student-card"><h2>📝 My Tasks</h2><div id="overview-tasks" class="student-list"></div></article>
+        </section>
+      </section>
+
+      <section class="student-panel" id="panel-profile">
+        <section class="student-card">
+          <h2>👤 My Profile</h2>
+          <div class="student-grid" style="margin-top:16px">
+            <article class="student-stat"><span>Name</span><strong id="profile-card-name">Student</strong></article>
+            <article class="student-stat"><span>Username / Email</span><strong id="profile-card-email">—</strong></article>
+            <article class="student-stat"><span>Student ID</span><strong>KA-2026-001</strong></article>
+            <article class="student-stat"><span>Batch</span><strong>2026–27</strong></article>
+            <article class="student-stat"><span>Status</span><strong>Active</strong></article>
+          </div>
+        </section>
+      </section>
+
+      <section class="student-panel" id="panel-courses">
+        <section class="student-card"><h2>📚 My Courses</h2><p class="muted">Course-wise progress from your learning dashboard.</p><div id="course-list" style="margin-top:14px"></div></section>
+      </section>
+
+      <section class="student-panel" id="panel-classes">
+        <section class="student-card"><h2>🗓️ My Classes</h2><div class="schedule">
+          <div class="schedule-row"><time>10:00 AM</time><div><p>JavaScript Advanced</p><small>Room A • Instructor: Kiran Academy</small></div><span class="student-pill">Today</span></div>
+          <div class="schedule-row"><time>11:30 AM</time><div><p>SQL & Database</p><small>Lab 2 • Practical Session</small></div><span class="student-pill">Tomorrow</span></div>
+          <div class="schedule-row"><time>02:00 PM</time><div><p>Career & Interview Prep</p><small>Seminar Hall • Mock Interview</small></div><span class="student-pill">05 Oct</span></div>
+          <div class="schedule-row"><time>04:00 PM</time><div><p>Python Project Lab</p><small>Lab 1 • Project Practice</small></div><span class="student-pill">07 Oct</span></div>
+        </div></section>
+      </section>
+
+      <section class="student-panel" id="panel-tests">
+        <section class="student-card"><h2>🧪 Test Performance</h2><p class="muted">Click any test to see marks, time, solved questions and detailed performance.</p><div id="test-list" class="student-list" style="margin-top:16px"></div></section>
+      </section>
+
+      <section class="student-panel" id="panel-mock">
+        <section class="student-card"><h2>🎯 Mock Tests</h2><div class="student-list">
+          <div class="student-item"><div><b>Full Stack Mock Test 02</b><small>50 Questions • 60 Minutes • Web Development</small></div><button class="action-btn" type="button">Start Mock</button></div>
+          <div class="student-item"><div><b>Python Mock Test 01</b><small>40 Questions • 45 Minutes • Python Development</small></div><button class="action-btn" type="button">Start Mock</button></div>
+          <div class="student-item"><div><b>SQL Mock Test 03</b><small>30 Questions • 40 Minutes • Database</small></div><button class="action-btn" type="button">Start Mock</button></div>
+        </div></section>
+      </section>
+
+      <section class="student-panel" id="panel-live">
+        <section class="student-card"><h2>🔴 Live Tests</h2><div class="student-list">
+          <div class="student-item"><div><b>JavaScript Weekly Live Test</b><small>20 Questions • 20 Minutes • Starts 06 Oct, 6:00 PM</small></div><span class="student-pill">Upcoming</span></div>
+          <div class="student-item"><div><b>SQL Speed Challenge</b><small>25 Questions • 25 Minutes • Starts 08 Oct, 7:00 PM</small></div><span class="student-pill">Upcoming</span></div>
+        </div></section>
+      </section>
+
+      <section class="student-panel" id="panel-attendance">
+        <section class="student-card"><h2>📅 Attendance</h2><div class="student-grid" style="margin-top:16px"><article class="student-stat"><span>Overall</span><strong>92%</strong></article><article class="student-stat"><span>September</span><strong>23/25</strong></article><article class="student-stat"><span>October</span><strong>3/3</strong></article><article class="student-stat"><span>Present</span><strong>26</strong></article><article class="student-stat"><span>Absent</span><strong>2</strong></article></div></section>
+      </section>
+
+      <section class="student-panel" id="panel-tasks">
+        <section class="student-card"><h2>📝 My Tasks</h2><div id="task-list" class="student-list"></div></section>
+      </section>
+
+      <section class="student-panel" id="panel-modules">
+        <section class="student-card">
+          <h2>📖 Learning Modules</h2>
+          <p class="muted">Follow your selected course module by module. Complete fundamentals before moving to projects.</p>
+          <div class="module-course-picker">
+            <label for="module-course-select">Select Course</label>
+            <select id="module-course-select">
+              <option value="" selected disabled>Select Course</option>
+            </select>
+          </div>
+          <div id="module-list" class="student-list" style="margin-top:16px"></div>
+        </section>
+      </section>
+
+      <section class="student-panel" id="panel-projects">
+        <section class="student-card">
+          <h2>🛠️ My Projects</h2>
+          <p class="muted">Build portfolio-ready projects as you complete your learning modules.</p>
+          <div id="dashboard-project-list" class="project-dashboard-grid" style="margin-top:16px"></div>
+        </section>
+      </section>
+
+      <section class="student-panel" id="panel-certificates">
+        <section class="student-card">
+          <h2>🏅 Certificates</h2>
+          <p class="muted">Certificates become available after completing the required course learning path.</p>
+          <div id="certificate-list" class="certificate-grid" style="margin-top:16px"></div>
+        </section>
+      </section>
+
+      <section class="student-panel" id="panel-career">
+        <section class="student-card">
+          <h2>🚀 Career Roadmap</h2>
+          <p class="muted">A practical path from learning fundamentals to career preparation.</p>
+          <div class="career-roadmap" style="margin-top:20px">
+            <article class="career-step"><span>01</span><div><b>Learn Fundamentals</b><small>Build strong concepts in your selected course.</small></div></article>
+            <article class="career-step"><span>02</span><div><b>Practice Skills</b><small>Use quizzes, exercises and guided practice.</small></div></article>
+            <article class="career-step"><span>03</span><div><b>Build Projects</b><small>Create projects that demonstrate practical ability.</small></div></article>
+            <article class="career-step"><span>04</span><div><b>Create Portfolio</b><small>Organize projects, skills and achievements.</small></div></article>
+            <article class="career-step"><span>05</span><div><b>Interview Preparation</b><small>Prepare technical, aptitude and project discussions.</small></div></article>
+            <article class="career-step"><span>06</span><div><b>Career Opportunities</b><small>Use your portfolio and preparation to explore internships and jobs.</small></div></article>
+          </div>
+        </section>
+      </section>
+
+      <section class="student-panel" id="panel-progress">
+        <section class="student-card"><h2>📈 Learning Progress</h2><div id="progress-list" class="student-list"></div></section>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const $ = (s, root=document) => root.querySelector(s);
+    const $$ = (s, root=document) => [...root.querySelectorAll(s)];
+    const courses = [
+      ['Full Stack Web Development','HTML • CSS • JavaScript • Backend',72],
+      ['Python Development','Python • SQL • Projects',54],
+      ['Java Full Stack','Java • Spring • Database',42],
+      ['Data Analytics','Excel • SQL • Power BI',48],
+      ['Data Science & AI','Python • Statistics • ML',31],
+      ['Software Testing','Manual • Automation • API Testing',38],
+      ['Cybersecurity','Security • Networks • Web Security',27],
+      ['UI/UX Design','Figma • UX Research • Prototyping',45]
+    ];
+    const tasks = [
+      ['Portfolio Website','Due: 06 Oct','Pending'],
+      ['SQL Assignment','Due: 08 Oct','In Progress'],
+      ['Resume Update','Due: 10 Oct','New'],
+      ['Python Mini Project','Due: 12 Oct','Pending']
+    ];
+    const user = sessionStorage.getItem('kiranStudentName') || localStorage.getItem('kiranUserName') || 'Student';
+    const cleanName = user.includes('@') ? user.split('@')[0] : user;
+    $('#student-name').textContent = cleanName || 'Student';
+    $('#profile-name').textContent = cleanName || 'Student';
+    $('#profile-email').textContent = user;
+    $('#profile-card-name').textContent = cleanName || 'Student';
+    $('#profile-card-email').textContent = user;
+    $('#student-avatar').textContent = (cleanName || 'S').charAt(0).toUpperCase();
+
+    function getResults(){
+      try { return JSON.parse(localStorage.getItem('kiranQuizResults') || '[]'); } catch(e) { return []; }
+    }
+    const moduleMap = {
+      'Full Stack Web Development':['Web Fundamentals','Responsive UI','JavaScript & APIs','Backend & Database','Full Stack Project'],
+      'Python Development':['Python Fundamentals','Functions & OOP','SQL & APIs','Automation','Python Project'],
+      'Java Full Stack':['Java Fundamentals','OOP & Collections','SQL & Database','Backend Development','Full Stack Project'],
+      'Data Analytics':['Excel & Data Basics','SQL Analytics','Data Cleaning','Power BI Dashboards','Analytics Project'],
+      'Data Science & AI':['Python for Data','Statistics','Machine Learning','AI Fundamentals','ML/AI Project'],
+      'Software Testing':['Testing Fundamentals','Test Cases','Bug Tracking','API Testing','Automation Basics'],
+      'Cybersecurity':['Security Fundamentals','Networking','Web Security','Authentication','Security Project'],
+      'UI/UX Design':['Design Principles','User Research','Wireframing','Visual Design','Prototype & Portfolio']
+    };
+    const projectIcons = ['🌐','🐍','☕','📊','🤖','🧪','🔐','🎨'];
+    const projectDescriptions = ['Responsive portfolio and full-stack application','Practical Python utility with data handling','Java application with database integration','Analytics dashboard with SQL insights','Machine learning / AI practical project','Structured QA project with test cases','Security-focused practical project','User-centered product and interface prototype'];
+
+    function renderCourses(){
+      const html = courses.map(([name,desc,p]) => `<div class="course-row"><div><b>${name}</b><small>${desc}</small><div class="progress-track"><span style="width:${p}%"></span></div></div><strong>${p}%</strong><span class="student-pill">${p >= 60 ? 'On Track' : 'Learning'}</span></div>`).join('');
+      $('#course-list').innerHTML = html;
+      $('#overview-courses').innerHTML = courses.slice(0,4).map(([name,desc,p]) => `<div class="student-item"><div><b>${name}</b><small>${desc}</small><div class="progress-track"><span style="width:${p}%"></span></div></div><span class="student-pill">${p}%</span></div>`).join('');
+      $('#progress-list').innerHTML = courses.map(([name,desc,p]) => `<div class="student-item"><div style="width:100%"><b>${name}</b><small>${desc}</small><div class="progress-track"><span style="width:${p}%"></span></div></div><span class="student-pill">${p}%</span></div>`).join('');
+      $('#module-course-select').innerHTML = `<option value="" selected disabled>Select Course</option>` + courses.map(([name]) => `<option value="${name}">${name}</option>`).join('');
+      renderModules(); renderProjects(); renderCertificates();
+    }
+    function renderTasks(){
+      const html = tasks.map(([name,due,status]) => `<div class="student-item"><div><b>${name}</b><small>${due}</small></div><span class="student-pill">${status}</span></div>`).join('');
+      $('#task-list').innerHTML = html;
+      $('#overview-tasks').innerHTML = tasks.slice(0,3).map(([name,due,status]) => `<div class="student-item"><div><b>${name}</b><small>${due}</small></div><span class="student-pill">${status}</span></div>`).join('');
+    }
+    function renderModules(courseName){
+      const select=$('#module-course-select');
+      const name=courseName || select.value;
+      const list=$('#module-list');
+      if(!name){ list.innerHTML='<div class="empty-state"><strong>Select a course to view its learning modules.</strong><br>Your modules will appear here step by step.</div>'; return; }
+      const progress=(courses.find(c=>c[0]===name)||[name,'',0])[2];
+      const modules=moduleMap[name] || ['Fundamentals','Practice','Projects'];
+      const completed=Math.min(modules.length,Math.floor(progress/20));
+      list.innerHTML=modules.map((m,i)=>`<div class="student-item module-row"><span class="module-number">${String(i+1).padStart(2,'0')}</span><div><b>${m}</b><small>${i<completed?'Completed':'Learn • Practice • Apply'}</small></div><span class="module-status">${i<completed?'✓ Done':i===completed?'Current':'Locked'}</span></div>`).join('');
+    }
+    function renderProjects(){
+      const list=$('#dashboard-project-list');
+      list.innerHTML=courses.map(([name,desc,p],i)=>`<article class="project-dashboard-card"><div class="project-icon">${projectIcons[i]}</div><h3>${name} Project</h3><p>${projectDescriptions[i]}. Suggested focus: ${desc.split(' • ')[0]}.</p><span class="student-pill">${p>=80?'Ready':'Build with course'}</span></article>`).join('');
+    }
+    function renderCertificates(){
+      const list=$('#certificate-list');
+      list.innerHTML=courses.map(([name,,p],i)=>`<article class="certificate-card"><div>${projectIcons[i]} Course Certificate</div><h3>${name}</h3><p>Complete the learning path, projects and required assessments to unlock your course certificate.</p><span class="certificate-lock">${p>=100?'✓ Available':'🔒 Locked • '+p+'% progress'}</span></article>`).join('');
+    }
+    function renderTests(){
+      const results = getResults().filter(r => !r.name || String(r.name).toLowerCase() === String(user).toLowerCase() || String(r.name).toLowerCase() === String(cleanName).toLowerCase());
+      const list = $('#test-list');
+      if(!results.length){
+        list.innerHTML = `<div class="empty-state"><strong>No completed test result found yet.</strong><br>Take a course quiz from the main Kiran Academy website. Your score will appear here automatically.</div>`;
+        $('#stat-tests').textContent='0'; $('#stat-score').textContent='—'; return;
+      }
+      const sorted = [...results].sort((a,b)=>Number(b.timestamp||0)-Number(a.timestamp||0));
+      const avg = Math.round(sorted.reduce((s,r)=>s+Number(r.percentage||0),0)/sorted.length);
+      $('#stat-tests').textContent = sorted.length;
+      $('#stat-score').textContent = avg + '%';
+      list.innerHTML = sorted.map((r,i)=>{
+        const total = Number(r.total || r.questions || 0);
+        const correct = Number(r.correct ?? r.score ?? 0);
+        const wrong = Math.max(0,total-correct);
+        const time = r.timeTaken || r.duration || 'Not recorded';
+        const date = r.date || (r.timestamp ? new Date(r.timestamp).toLocaleString() : 'Recent');
+        const id='detail-'+i;
+        return `<div class="student-item test-row" data-detail="${id}"><div><b>${r.courseName || 'Skill Test'}</b><small>${r.testName || 'Course Quiz'} • ${total || '—'} Questions • ${date}</small></div><span class="student-pill">${Number(r.percentage||0)}%</span></div><div class="test-detail" id="${id}"><strong>${r.courseName || 'Skill Test'} — Performance</strong><div class="detail-grid"><div class="detail-stat"><span>Marks</span><strong>${correct}/${total || '—'}</strong></div><div class="detail-stat"><span>Percentage</span><strong>${Number(r.percentage||0)}%</strong></div><div class="detail-stat"><span>Correct</span><strong>${correct}</strong></div><div class="detail-stat"><span>Wrong</span><strong>${wrong}</strong></div><div class="detail-stat"><span>Time</span><strong>${time}</strong></div></div><div style="margin-top:13px;color:var(--text-soft)">Questions solved: <b>${correct + wrong}</b> of <b>${total || correct+wrong}</b> • Course rank: <b>${r.rank ? '#'+r.rank : 'Available on course leaderboard'}</b> • Attempts: <b>${r.attempt || 1}</b></div></div>`;
+      }).join('');
+      $$('.test-row').forEach(row=>row.addEventListener('click',()=>$('#'+row.dataset.detail).classList.toggle('open')));
+    }
+    function openTab(tab){
+      $$('.student-tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));
+      $$('.student-panel').forEach(p=>p.classList.toggle('active',p.id==='panel-'+tab));
+      if(tab==='modules') renderModules();
+      window.scrollTo({top:0,behavior:'smooth'});
+    }
+    $$('.student-tab').forEach(btn=>btn.addEventListener('click',()=>openTab(btn.dataset.tab)));
+    $$('[data-open-tab]').forEach(btn=>btn.addEventListener('click',()=>openTab(btn.dataset.openTab)));
+    $('#module-course-select').addEventListener('change',e=>renderModules(e.target.value));
+    $('#logout').addEventListener('click',()=>{sessionStorage.removeItem('kiranStudentName');window.location.href='home_page.html';});
+    renderCourses(); renderTasks(); renderTests();
+  </script>
+</body>
+</html>
