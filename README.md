@@ -153,7 +153,7 @@ No:
 ```text
 Kiran_Academy_demo/
 │
-├── home_page.html
+├── index.html
 ├── student-login.html
 ├── student-dashboard-pro.html
 ├── style_k_a.css
@@ -163,7 +163,7 @@ Kiran_Academy_demo/
 
 ### File Description
 
-**`home_page.html`**
+**`index_page.html`**
 Main Kiran Academy website containing the homepage, courses, programs, career paths, internships, placements, quizzes, and other sections.
 
 **`style_k_a.css`**
@@ -228,11 +228,11 @@ Add screenshots of your project here.
 Example:
 
 ```markdown
-![Kiran Academy Homepage](screenshots/homepage.png)
+![Kiran Academy index page](screenshots/index.png)
 
-![Student Dashboard](screenshots/dashboard.png)
+![Student Dashboard](screenshots/student_deshboard.png)
 
-![Student Login](screenshots/login.png)
+![Student Login](screenshots/login_page.png)
 ```
 
 ---
