@@ -10,7 +10,7 @@ This project was built using **HTML5, CSS3, and Vanilla JavaScript** without usi
 
 ## 🚀 Live Project
 
-🔗 **Live Demo:** Add your GitHub Pages link here
+🔗 **Live Demo:** https://suhani-shende.github.io/Kiran_Academy_demo/
 
 ---
 
@@ -225,6 +225,8 @@ Possible future improvements include:
 
 ```markdown
 ![Kiran Academy index page](screenshots/index.png)
+
+![Courses & Quiz](screenshots/quiz.png)
 
 ![Student Dashboard](screenshots/student_deshboard.png)
 
