@@ -223,12 +223,8 @@ Possible future improvements include:
 
 ## 📸 Screenshots
 
-Add screenshots of your project here.
-
-Example:
-
 ```markdown
-![Kiran Academy index page](screenshots/index.png)
+![Kiran Academy index page](index.png)
 
 ![Student Dashboard](screenshots/student_deshboard.png)
 
