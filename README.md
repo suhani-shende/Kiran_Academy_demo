@@ -224,9 +224,9 @@ Possible future improvements include:
 ## 📸 Screenshots
 
 ```markdown
-(index.png)
+![Student Home Page](screenshots/index.png)
 
-!(quiz.png)
+![Student Courses & Quiz](screenshots/quiz.png)
 
 ![Student Dashboard](screenshots/student_deshboard.png)
 
