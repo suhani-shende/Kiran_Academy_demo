@@ -224,9 +224,9 @@ Possible future improvements include:
 ## 📸 Screenshots
 
 ```markdown
-![Kiran Academy index page](screenshots/index.png)
+(index.png)
 
-![Courses & Quiz](screenshots/quiz.png)
+!(quiz.png)
 
 ![Student Dashboard](screenshots/student_deshboard.png)
 
